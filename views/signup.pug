@@ -1,7 +1,7 @@
 extends layout
 
 block content 
-  form.main-form 
+  form.main-form(action='' method='POST')
     div.content-title Sign up
     div.form-group
       label(for='username') Username
@@ -12,4 +12,4 @@ block content
     div.form-group
       label(for='confirm_password') Confirm password
       input(type='text' name='confirm_password')
-     button.flat-btn(type='submit') Sign up
+    button.flat-btn(type='submit') Sign up

@@ -1,13 +1,15 @@
 doctype html
 html
   head
-    title= title
+    title member's only
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     header.header
       div.logo
-        div Member's Only
+        div member's only
       div.btn-ctn
-        button.text-btn(type='button') Log in
-        button.text-btn(type='button') Sign up
+        a(href='/login')
+          button.text-btn(type='button') Log in
+        a(href='/signup')
+          button.text-btn(type='button') Sign up
     block content
