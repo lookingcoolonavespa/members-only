@@ -1,0 +1,15 @@
+extends layout
+
+block content 
+  form.main-form 
+    div.content-title Sign up
+    div.form-group
+      label(for='username') Username
+      input(type='text' name='username')
+    div.form-group
+      label(for='password') Password
+      input(type='text' name='password')
+    div.form-group
+      label(for='confirm_password') Confirm password
+      input(type='text' name='confirm_password')
+     button.flat-btn(type='submit') Sign up

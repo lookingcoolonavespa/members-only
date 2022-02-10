@@ -1,0 +1,12 @@
+extends layout
+
+block content 
+  form.main-form 
+    div.content-title Log in
+    div.form-group
+      label(for='username') Username
+      input(type='text' name='username')
+    div.form-group
+      label(for='password') Password
+      input(type='text' name='password')
+     button.flat-btn(type='submit') Log in
