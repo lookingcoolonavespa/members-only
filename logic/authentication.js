@@ -8,7 +8,7 @@ passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ username }, (err, user) => {
       if (err) return done(err);
-      if (!user) return done(null, false, { message: 'incorrect username' });
+      if (!user) return done(null, false, { message: 'no user found' });
 
       bcrypt.compare(password, user.password, (err, res) => {
         if (res) return done(null, user);

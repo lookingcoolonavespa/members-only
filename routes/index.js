@@ -12,17 +12,7 @@ router.get('/', function (req, res, next) {
 router.get('/login', (req, res, next) => {
   res.render('login');
 });
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) return next(err);
-    if (!user) return res.render('login', { message: info.message });
-    req.login(user, (err) => {
-      if (err) return next(err);
-
-      res.redirect('/');
-    });
-  })(req, res, next);
-});
+router.post('/login');
 
 router.get('/signup', (req, res, next) => {
   res.render('signup');
