@@ -5,11 +5,16 @@ block content
     div.content-title Sign up
     div.form-group
       label(for='username') Username
-      input(type='text' name='username')
+      input(type='text' name='username' value=(username ? username : ''))
     div.form-group
       label(for='password') Password
-      input(type='text' name='password')
+      input(type='password' name='password')
     div.form-group
       label(for='confirm_password') Confirm password
-      input(type='text' name='confirm_password')
+      input(type='password' name='confirm_password')
     button.flat-btn(type='submit') Sign up
+  if errors
+    ul
+      for error in errors
+        console.log(error)
+        li!= error.msg
