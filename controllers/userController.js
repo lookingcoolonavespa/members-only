@@ -5,6 +5,7 @@ const {
   isUsernameInUse,
   doPasswordsMatch,
 } = require('../logic/custom_validators');
+const passport = require('../logic/authentication');
 
 const User = require('../models/User');
 
@@ -37,13 +38,11 @@ exports.user_signup_post = [
         username: req.body.username,
         password: hashedPassword,
       });
-
       await user.save((err) => {
         if (err) return next(err);
       });
 
       req.login(user, (err) => {
-        console.log(user);
         if (err) return next(err);
 
         res.redirect('/');
@@ -51,3 +50,15 @@ exports.user_signup_post = [
     });
   },
 ];
+
+exports.user_login_post = (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.render('login', { message: info.message });
+    req.login(user, (err) => {
+      if (err) return next(err);
+
+      res.redirect('/');
+    });
+  })(req, res, next);
+};

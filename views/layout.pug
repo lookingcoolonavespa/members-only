@@ -8,7 +8,10 @@ html
       div.logo
         div member's only
       if user
-        div.user_info
+        div.user_info hi #{user.username}
+        div.btn-ctn
+          a(href='/logout')
+            button.text-btn(type='button') Log out
       else  
         div.btn-ctn
           a(href='/login')
