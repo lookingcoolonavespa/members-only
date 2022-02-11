@@ -30,14 +30,22 @@ exports.user_signup_post = [
       });
     }
 
-    bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+    bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
       if (err) return next(err);
 
       const user = new User({
         username: req.body.username,
         password: hashedPassword,
-      }).save((err) => {
+      });
+
+      await user.save((err) => {
         if (err) return next(err);
+      });
+
+      req.login(user, (err) => {
+        console.log(user);
+        if (err) return next(err);
+
         res.redirect('/');
       });
     });

@@ -7,9 +7,12 @@ html
     header.header
       div.logo
         div member's only
-      div.btn-ctn
-        a(href='/login')
-          button.text-btn(type='button') Log in
-        a(href='/signup')
-          button.text-btn(type='button') Sign up
+      if user
+        div.user_info
+      else  
+        div.btn-ctn
+          a(href='/login')
+            button.text-btn(type='button') Log in
+          a(href='/signup')
+            button.text-btn(type='button') Sign up
     block content
