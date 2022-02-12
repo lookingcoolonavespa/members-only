@@ -6,3 +6,6 @@ exports.isUsernameInUse = async (username) => {
 };
 
 exports.doPasswordsMatch = (value, { req }) => value === req.body.password;
+
+exports.isSecretPasswordEntered = (value) =>
+  value === process.env.SECRET_PASSWORD;

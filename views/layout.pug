@@ -5,14 +5,19 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     header.main-nav
-      div.logo
-        div member's only
+      a(href='/')
+        div.logo
+          div member's only
       if user
         div.user_info hi #{user.username}
         div.btn-ctn
           a(href='/logout')
             button.text-btn(type='button') 
               span.text-wrapper log out
+          if user.role === 'pleb'
+            a(href='/become_member')
+              button.text-btn(type='button') 
+                span.text-wrapper become a member        
       else  
         div.btn-ctn
           a(href='/login')

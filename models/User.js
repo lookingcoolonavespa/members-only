@@ -4,6 +4,7 @@ const User = mongoose.model(
   new mongoose.Schema({
     username: { type: String, maxlength: 100, required: true },
     password: { type: String, required: true },
+    role: { type: String, required: true },
   })
 );
 

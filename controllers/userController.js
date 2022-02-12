@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const {
   isUsernameInUse,
   doPasswordsMatch,
+  isSecretPasswordEntered,
 } = require('../logic/custom_validators');
 const passport = require('../logic/authentication');
 
@@ -37,6 +38,7 @@ exports.user_signup_post = [
       const user = new User({
         username: req.body.username,
         password: hashedPassword,
+        role: 'pleb',
       });
       await user.save((err) => {
         if (err) return next(err);
@@ -62,3 +64,22 @@ exports.user_login_post = (req, res, next) => {
     });
   })(req, res, next);
 };
+
+exports.become_member_post = [
+  body('password', 'invalid password')
+    .trim()
+    .notEmpty()
+    .custom(isSecretPasswordEntered),
+  (req, res, next) => {
+    User.findByIdAndUpdate(
+      req.user._id,
+      { role: 'member' },
+      {},
+      (err, user) => {
+        if (err) return next(err);
+
+        res.redirect('/');
+      }
+    );
+  },
+];
