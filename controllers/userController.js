@@ -71,6 +71,13 @@ exports.become_member_post = [
     .notEmpty()
     .custom(isSecretPasswordEntered),
   (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.render('secret_password_page', {
+        errors: errors.errors,
+      });
+    }
+
     User.findByIdAndUpdate(
       req.user._id,
       { role: 'member' },

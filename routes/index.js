@@ -3,6 +3,7 @@ var router = express.Router();
 const passport = require('../logic/authentication');
 
 const userController = require('../controllers/userController');
+const Message = require('../models/Message');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -27,6 +28,22 @@ router.get('/logout', (req, res) => {
 
 router.get('/become_member', (req, res, next) => {
   res.render('secret_password_page', { user: req.user });
+});
+router.post('/become_member', userController.become_member_post);
+
+router.post('/create_message', (req, res, next) => {
+  if (!req.user) return res.render('index', { message: 'user not found' });
+
+  new Message({
+    user: req.user._id,
+    date: new Date(),
+    title: req.body.title,
+    content: req.body.content,
+  }).save((err) => {
+    if (err) return next(err);
+
+    res.redirect('/');
+  });
 });
 
 module.exports = router;

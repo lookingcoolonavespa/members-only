@@ -3,7 +3,13 @@ extends layout
 block content
   h1 member's only
   p Welcome to member's only
-  div.message-input-ctn
-    div.message-input-wrapper
-      form(action='' method='POST')
-        textarea(placeholder='enter your message here')
+  if user && user.role === 'member'
+    div.message-input-ctn
+      div.message-input-wrapper
+        form(action='/create_message' method='POST')
+          h3.form-title create a message
+          input(type='text' name='title' placeholder='title')
+          textarea(name='content' placeholder='create a message')
+          div.btn-ctn
+            button(type='submit')
+              span.text-wrapper create
