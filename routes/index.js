@@ -6,9 +6,14 @@ const userController = require('../controllers/userController');
 const Message = require('../models/Message');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  console.log(req.user);
-  res.render('index', { user: req.user });
+router.get('/', async function (req, res, next) {
+  //get number of pages
+  const messagesCount = await Message.count({});
+  const pageCount = Math.ceil(messagesCount / 20);
+
+  const messages = await Message.find().populate('user');
+  console.log(messages);
+  res.render('index', { user: req.user, messages, pageCount });
 });
 
 router.get('/login', (req, res, next) => {

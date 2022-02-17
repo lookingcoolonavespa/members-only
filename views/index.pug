@@ -13,3 +13,17 @@ block content
           div.btn-ctn
             button(type='submit')
               span.text-wrapper create
+  main.messages-ctn
+    if messages
+      for message in messages
+        article.message-wrapper
+          header.message-title #{message.title}
+          div.message-content #{message.content}
+          footer.message-deets 
+            p.message-author #{message.user.username}
+            p.message-date #{message.date}
+      ul.page_count      
+        - for (let i=1; i <= pageCount; i++) {
+          a.page_num(href='/')
+            li.text-wrapper #{i}
+        - }

@@ -22,6 +22,10 @@ a {
   text-decoration: none;
 }
 
+li {
+  list-style: none;
+}
+
 button,
 input[type='submit'],
 input[type='text'],
@@ -62,4 +66,12 @@ main {
 input[type='text'],
 input[type='password'] {
   border-bottom: 1px solid black;
+}
+
+.page_count {
+  display: flex;
+}
+.page_num {
+  padding: 5px;
+  margin: 0 5px;
 }
