@@ -19,11 +19,15 @@ block content
         article.message-wrapper
           header.message-title #{message.title}
           div.message-content #{message.content}
-          footer.message-deets 
-            p.message-author #{message.user.username}
-            p.message-date #{message.date}
+          if user
+            footer.message-deets 
+              p.message-author #{message.user.username}
+              p.message-date #{message.dateStr}
+              if user.role === 'admin'
+                button.delete-btn(type='button')
+                  span.text-wrapper delete message
       ul.page_count      
         - for (let i=1; i <= pageCount; i++) {
-          a.page_num(href='/')
+          a.page_num(href=`/page/${i}`)
             li.text-wrapper #{i}
         - }

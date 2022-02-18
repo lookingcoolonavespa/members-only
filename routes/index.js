@@ -5,14 +5,37 @@ const passport = require('../logic/authentication');
 const userController = require('../controllers/userController');
 const Message = require('../models/Message');
 
+function getMessagesForPage(page, numPerPage) {
+  return Promise.all([
+    Message.count({}),
+    Message.find()
+      .sort({ date: -1 })
+      .skip(numPerPage * (page - 1))
+      .limit(numPerPage)
+      .populate('user'),
+  ]);
+}
+
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-  //get number of pages
-  const messagesCount = await Message.count({});
-  const pageCount = Math.ceil(messagesCount / 20);
+  const numberOfMessagesPerPage = 20;
+  const [messagesCount, messages] = await getMessagesForPage(
+    1,
+    numberOfMessagesPerPage
+  );
+  messages.forEach((msg) => console.log(msg));
+  const pageCount = Math.ceil(messagesCount / numberOfMessagesPerPage);
 
-  const messages = await Message.find().populate('user');
-  console.log(messages);
+  res.render('index', { user: req.user, messages, pageCount });
+});
+
+router.get('/page/:num', async function (req, res, next) {
+  const numberOfMessagesPerPage = 20;
+  const { messages, count: messagesCount } = await getMessagesForPage(
+    req.params.num,
+    numberOfMessagesPerPage
+  );
+  const pageCount = Math.ceil(messagesCount / numberOfMessagesPerPage);
   res.render('index', { user: req.user, messages, pageCount });
 });
 
