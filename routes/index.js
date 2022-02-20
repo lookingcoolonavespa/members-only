@@ -24,7 +24,7 @@ router.get('/', async function (req, res, next) {
   );
   const pageCount = Math.ceil(messagesCount / numberOfMessagesPerPage);
 
-  res.render('index', { user: req.user, messages, pageCount });
+  res.render('index', { user: req.user, currentPage: 1, messages, pageCount });
 });
 
 router.get('/page/:num', async function (req, res, next) {
@@ -36,7 +36,12 @@ router.get('/page/:num', async function (req, res, next) {
   const pageCount = Math.ceil(messagesCount / numberOfMessagesPerPage);
 
   messages.length > 0
-    ? res.render('index', { user: req.user, messages, pageCount })
+    ? res.render('index', {
+        user: req.user,
+        currentPage: req.params.num,
+        messages,
+        pageCount,
+      })
     : res.redirect('/');
 });
 

@@ -3,12 +3,12 @@ extends layout
 block content
   h1 member's only
   p Welcome to member's only
-  if user && user.role
+  if user && user.role !== 'pleb'
     div.message-input-ctn
       h3.form-title create a message
       form.message-input-wrapper(action='/create_message' method='POST')
         div.form-group
-          input(type='text' name='title' placeholder='title')
+          input.message-title-input(type='text' name='title' placeholder='title')
         textarea(name='content' placeholder='create a message')
         div.btn-ctn
           button(type='submit')
@@ -17,14 +17,14 @@ block content
     if messages
       for message in messages
         article.message-wrapper
-          header.message-title #{message.title}
+          header.content-title #{message.title}
           div.message-content #{message.content}
           if user
             footer.message-deets 
               p.message-author #{message.user.username},&nbsp;
               p.message-date #{message.dateStr}
               if user.role === 'admin'
-                form(action='/delete_message' method='POST')
+                form.action-ctn(action='/delete_message' method='POST')
                   div.form-group
                     input(type='hidden',name='messageid', required='true', value=message._id )
                   button.delete-btn(type='submit')
@@ -32,5 +32,8 @@ block content
       ul.page_count      
         - for (let i=1; i <= pageCount; i++) {
           a.page_num(href=`/page/${i}`)
-            li.text-wrapper #{i}
+            if(i===+currentPage)
+              li.text-wrapper(style='font-weight: 600') #{i}
+            else 
+              li.text-wrapper #{i}
         - }
