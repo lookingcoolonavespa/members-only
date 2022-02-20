@@ -3,16 +3,16 @@ extends layout
 block content
   h1 member's only
   p Welcome to member's only
-  if user && user.role === 'member'
+  if user && user.role
     div.message-input-ctn
-      div.message-input-wrapper
-        form(action='/create_message' method='POST')
-          h3.form-title create a message
+      h3.form-title create a message
+      form.message-input-wrapper(action='/create_message' method='POST')
+        div.form-group
           input(type='text' name='title' placeholder='title')
-          textarea(name='content' placeholder='create a message')
-          div.btn-ctn
-            button(type='submit')
-              span.text-wrapper create
+        textarea(name='content' placeholder='create a message')
+        div.btn-ctn
+          button(type='submit')
+            span.text-wrapper create
   main.messages-ctn
     if messages
       for message in messages
@@ -21,11 +21,14 @@ block content
           div.message-content #{message.content}
           if user
             footer.message-deets 
-              p.message-author #{message.user.username}
+              p.message-author #{message.user.username},&nbsp;
               p.message-date #{message.dateStr}
               if user.role === 'admin'
-                button.delete-btn(type='button')
-                  span.text-wrapper delete message
+                form(action='/delete_message' method='POST')
+                  div.form-group
+                    input(type='hidden',name='messageid', required='true', value=message._id )
+                  button.delete-btn(type='submit')
+                    span.text-wrapper delete message
       ul.page_count      
         - for (let i=1; i <= pageCount; i++) {
           a.page_num(href=`/page/${i}`)

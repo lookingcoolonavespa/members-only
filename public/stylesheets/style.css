@@ -86,3 +86,6 @@ input[type='password'] {
 .message-content {
   padding-left: 5px;
 }
+.message-deets {
+  display: flex;
+}

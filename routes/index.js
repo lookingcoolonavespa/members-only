@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const passport = require('../logic/authentication');
 
 const userController = require('../controllers/userController');
 const Message = require('../models/Message');
@@ -18,25 +17,27 @@ function getMessagesForPage(page, numPerPage) {
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-  const numberOfMessagesPerPage = 20;
+  const numberOfMessagesPerPage = 10;
   const [messagesCount, messages] = await getMessagesForPage(
     1,
     numberOfMessagesPerPage
   );
-  messages.forEach((msg) => console.log(msg));
   const pageCount = Math.ceil(messagesCount / numberOfMessagesPerPage);
 
   res.render('index', { user: req.user, messages, pageCount });
 });
 
 router.get('/page/:num', async function (req, res, next) {
-  const numberOfMessagesPerPage = 20;
-  const { messages, count: messagesCount } = await getMessagesForPage(
+  const numberOfMessagesPerPage = 10;
+  const [messagesCount, messages] = await getMessagesForPage(
     req.params.num,
     numberOfMessagesPerPage
   );
   const pageCount = Math.ceil(messagesCount / numberOfMessagesPerPage);
-  res.render('index', { user: req.user, messages, pageCount });
+
+  messages.length > 0
+    ? res.render('index', { user: req.user, messages, pageCount })
+    : res.redirect('/');
 });
 
 router.get('/login', (req, res, next) => {
@@ -71,6 +72,14 @@ router.post('/create_message', (req, res, next) => {
     if (err) return next(err);
 
     res.redirect('/');
+  });
+});
+
+router.post('/delete_message', async (req, res, next) => {
+  Message.findByIdAndRemove(req.body.messageid, function deleteMessage(err) {
+    if (err) return next(err);
+
+    res.redirect('back');
   });
 });
 

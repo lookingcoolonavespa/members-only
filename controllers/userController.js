@@ -59,7 +59,6 @@ exports.user_login_post = (req, res, next) => {
     if (!user) return res.render('login', { message: info.message });
     req.login(user, (err) => {
       if (err) return next(err);
-      console.log(user);
       res.redirect('/');
     });
   })(req, res, next);

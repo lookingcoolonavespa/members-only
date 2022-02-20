@@ -7,11 +7,10 @@ const MessageSchema = new mongoose.Schema({
   title: { type: String, maxlength: 100, required: true },
   content: { type: String, required: true },
 });
-const Message = mongoose.model('Message', MessageSchema);
-
 MessageSchema.virtual('dateStr').get(function () {
-  console.log(getDateStr(this.date));
   return getDateStr(this.date);
 });
+
+const Message = mongoose.model('Message', MessageSchema);
 
 module.exports = Message;
